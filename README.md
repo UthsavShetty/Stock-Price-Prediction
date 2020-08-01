@@ -1,14 +1,7 @@
-﻿# Stock Price Prediction
+# Stock Price Prediction
 
 This project focuses on predicting Google stock price on real time data. I used past 10 years worth of historical Google (GOOGL) stock data for training and built an effective model for predicting stock prices and displayed the predictions on webpage using Flask, Kafka and Highcharts.
 
-![GitHub repo size](https://img.shields.io/github/repo-size/Wolvarun9295/StockMarketPredictionProject?color=2188FC&label=Repo%20Size&style=plastic)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/Wolvarun9295/StockMarketPredictionProject?color=BE33FF&label=Code%20Size&style=plastic)
-![GitHub issues](https://img.shields.io/github/issues/Wolvarun9295/StockMarketPredictionProject?color=FF3D37&label=Issues&style=plastic)
-![GitHub last commit](https://img.shields.io/github/last-commit/Wolvarun9295/StockMarketPredictionProject?color=5DFF00&label=Last%20Commit&style=plastic)
-[![GitHub license](https://img.shields.io/github/license/Wolvarun9295/StockMarketPredictionProject?color=FF9B23&label=License&style=plastic)](https://github.com/Wolvarun9295/StockMarketPredictionProject/blob/master/LICENSE)
-
-#
 
 ## Prerequisites:
 
@@ -44,13 +37,7 @@ $ sudo snap install code --classic
 - This project has been built using Python3 to help predict the future stock close prices of Google stock with the help of Machine Learning and Data Visualization in real time.
 - To start, I created an AWS account and created a user with all access.
 - Downloaded the Amazon CLI on my system and then added the AWS access keys to be accessed globally.
-- Next I started creating python script to create a bucket and upload the downloaded CSV file onto the AWS bucket. To do this, I needed to install the boto3.
-
-#### ***What is boto3?***
-***Boto3 is the Amazon Web Services (AWS) Software Development Kit (SDK) for Python, which allows Python developers to write software that makes use of services like Amazon S3 and Amazon EC2.***
-
-#### ***What is Amazon S3 Bucket?***
-***An Amazon S3 bucket is a public cloud storage resource available in Amazon Web Services' (AWS) Simple Storage Service (S3), an object storage offering. Amazon S3 buckets, which are similar to file folders, store objects, which consist of data and its descriptive metadata.***
+- Next I started creating python script to create a bucket and upload the downloaded CSV file onto the AWS bucket. To do this, I needed to install the boto3
 
 - After creating and uploading my CSV file, I fetched the file from my S3 bucket with the help of Pandas.
 - Since no data is clean and has missing values, it needs to be cleaned.
@@ -69,22 +56,12 @@ $ sudo snap install code --classic
 - Now comes the fun part of testing the model using Data Visualization.
 - For this, firstly I had to install Apache Zookeeper and Apache Kafka.
 
-#### ***What is Apache Zookeeper?***
-***ZooKeeper is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. All of these kinds of services are used in some form or another by distributed applications. Each time they are implemented there is a lot of work that goes into fixing the bugs and race conditions that are inevitable. Because of the difficulty of implementing these kinds of services, applications initially usually skimp on them, which make them brittle in the presence of change and difficult to manage. Even when done correctly, different implementations of these services lead to management complexity when the applications are deployed.***
-
-#### ***What is Apache Kafka?***
-***Apache Kafka is a distributed publish-subscribe messaging system and a robust queue that can handle a high volume of data and enables you to pass messages from one end-point to another. Kafka is suitable for both offline and online message consumption. Kafka messages are persisted on the disk and replicated within the cluster to prevent data loss. Kafka is built on top of the ZooKeeper synchronization service. It integrates very well with Apache Storm and Spark for real-time streaming data analysis.***
-
 - To display the prediction in real time, we first need to start the Zookeeper server and then start the Kafka server.
 - I created the Producer and Consumer scripts in Python3 and ran them through Flask app.
 
-#### ***What is Flask?***
-***Flask is a web application framework written in Python. Flask is based on the Werkzeug WSGI
-toolkit and Jinja2 template engine. The Flask framework uses Werkzeug as one of its bases. Werkzeug is a WSGI toolkit, which implements requests, response objects, and other utility functions. This enables building a web framework on top of it. Web Server Gateway Interface (WSGI ) is a specification for a universal interface between the web server and the web applications. It has been adopted as a standard for Python web application development. Jinja2 is a popular templating engine for Python. A web templating system combines a template with a certain data source to render dynamic web pages.***
 
 - Finally, to display the graph I used Highcharts JS in my HTML file and styled it through CSS.
 
-#
 
 ## Setup to run the project
 ### Step 1:
@@ -150,30 +127,11 @@ $ ./bin/kafka-server-start.sh ./config/server-properties
 
 #
 
-## Solving error while running project
-- ***Two kinds of errors that we face is while running PySpark code: one is py4j error which is solved by installing py4j package. The other is PySpark worker is running in Python2.7 error.***
-- To solve the **PYSPARK_PYTHON** and **PYSPARK_DRIVER_PYTHON** error while running PySpark in PyCharm, do the following in files wherever required:
-- Click on the **Edit Configurations** besides the Run button.
-<img src=Screenshots/edit.png height=”100” >
-
-- In **Environmental Variables**, click on the small page button.
-<img src=Screenshots/environmentalVars.png height=”100” >
-
-- And add the following variables in it and click on **OK**  and then **Apply**.
-<img src=Screenshots/addingVars.png height=”100” >
-
-#
-
 ## Deployment Process
 - First create an EC2 instance, download the **filename.pem** file which is available at the time of instance creation.
 
-#### ***What is Amazon EC2?***
-***Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.***
-
 - Now before logging in to the instance, make sure you assign an elastic IP to your instance. For this refer the 7th video of **[this](https://youtu.be/CIVI-DIzCFk)** link first before going forward. This will ensure that your IP address doesn’t change when you stop or reboot the instance and will also save some usage charges.
 
-#### ***What is Amazon Elastic IP address?***
-***An Elastic IP address is a reserved public IP address that you can assign to any EC2 instance in a particular region, until you choose to release it. When you associate an Elastic IP address with an EC2 instance, it replaces the default public IP address. If an external hostname was allocated to the instance from your launch settings, it will also replace this hostname; otherwise, it will create one for the instance. The Elastic IP address remains in place through events that normally cause the address to change, such as stopping or restarting the instance.***
 
 - Open the terminal on your local machine and make your filename.pem file readable to avoid permission issues during logging in the instance.
 ```
@@ -231,7 +189,6 @@ $ gunicorn3 app:app
 ```
 - Now after successfull execution of the flask app, enter **your.elastic.IP** (No port number necessary) in your browser and voila, the flask app is up and running.
 
-#
 
 ## Job Scheduling on AWS
 - To perform job scheduling on AWS, we need to make four bash executable files: **zookeeper.sh, kafka.sh, ProducerJob.sh and AppJob.sh** and store them in the project directory.
@@ -298,18 +255,6 @@ $ ps -ef | grep taskname
 ```
 - Now check the output on the browser using **your.elastic.IP**.
 
-#
 
-## References
-- [Keith, The Coder – First 3 videos for AWS bucket operations](https://www.youtube.com/playlist?list=PLlQ1p0CY-uJVOXeu6laL4Dqq-Ocabuqbn)
-- [Avery Makes Games – AlphaVantage key generating and pulling live stock data](https://youtu.be/339AfkUQ67o)
-- [Srce Cde – First 7 videos for deploying flask app on AWS](https://www.youtube.com/playlist?list=PL5KTLzN85O4KTCYzsWZPTP0BfRj6I_yUP)
-- [Linux Help – Scheduling the Cron Job on AWS](https://youtu.be/CIVI-DIzCFk)
 
-#
 
-## License and Copyright
-
-© Varun I. Nagrare
-
-Licensed under the [MIT License](LICENSE)
