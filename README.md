@@ -1,4 +1,4 @@
-# Stock Price Prediction
+# Predicting stock price on real-time data
 
 This project focuses on predicting Google stock price on real time data. I used past 10 years worth of historical Google (GOOGL) stock data for training and built an effective model for predicting stock prices and displayed the predictions on webpage using Flask, Kafka and Highcharts.
 
@@ -20,20 +20,10 @@ $ sudo apt-get install python3-pip
 Use the following command to install the .txt file:
 
 ```
-$ sudo pip3 install -r Requirements.txt
+$ pip3 install -r Requirements.txt
 ```
 
-**NOTE:** This project has been created using Jetbrains PyCharm Community Edition and Visual Studio Code. You can install both from [Snap Store](https://snapcraft.io/)
-
-```
-$ sudo apt update
-$ sudo apt install snapd
-$ sudo snap install pycharm-community –classic
-$ sudo snap install code --classic
-```
-#
-
-## What the project does and how it was made?
+## Instructions
 - This project has been built using Python3 to help predict the future stock close prices of Google stock with the help of Machine Learning and Data Visualization in real time.
 - To start, I created an AWS account and created a user with all access.
 - Downloaded the Amazon CLI on my system and then added the AWS access keys to be accessed globally.
@@ -43,59 +33,30 @@ $ sudo snap install code --classic
 - Since no data is clean and has missing values, it needs to be cleaned.
 - Now after the data has been cleaned, we can now built a model using Machine Learning. Keep in mind, the less data we use the higher chances of underfitting occur and the more data we use, the higher chances of overfitting occur. So we need to choose the data not more, not less.
 - The model building process has been done using PySpark’s mlib Library.
-
-#### ***What is PySpark?***
-***Apache Spark is written in Scala programming language. To support Python with Spark, Apache Spark community released a tool, PySpark. Using PySpark, you can work with RDDs in Python programming language also. It is because of a library called Py4j that they are able to achieve this.***
-
 - I used Linear Regression to train the model and used the Regression Evaluator to give the accuracy of my model.
 - After the successfull buliding of my model, I needed to check if it works on real data. For that I registered on a website called AlphaVantage and generated the key to access the live data from their site.
 
 #### ***What is AlphaVantage?***
 ***Alpha Vantage Inc. is a company that provides realtime and historical stock APIs as well as forex (FX) and digital/crypto currency data feeds.***
 
-- Now comes the fun part of testing the model using Data Visualization.
 - For this, firstly I had to install Apache Zookeeper and Apache Kafka.
 
 - To display the prediction in real time, we first need to start the Zookeeper server and then start the Kafka server.
 - I created the Producer and Consumer scripts in Python3 and ran them through Flask app.
-
-
 - Finally, to display the graph I used Highcharts JS in my HTML file and styled it through CSS.
 
 
 ## Setup to run the project
+
 ### Step 1:
-- Create an AWS account. (free for 1 year)
-- Login after the account has been successfully created.
+- Create an AWS account
 - Now go to **IAM** in **Identity and Access Management** services and setup a user with programming access and give full access to the user.
 - After the setup, note down the **Public Access Key** and **Secret Access Key**. **(Highly Important)**
 
 ### Step 2:
 - Install the Amazon CLI (Command Line Interface) on your local machine. (requires curl)
-```
-$ sudo apt-get install curl
-$ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-$ unzip awscliv2.zip
-$ sudo ./aws/install
-$ aws –version
-```
 - On your local machine, make a folder **.aws** in root folder and touch two files in the folder: **config** and **credentials**. (to make the aws keys globally accessible)
 - Add the following lines in **config**:
-```
-[default]
-region=region of your choice
-```
-- Add the following lines in **credentials**:
-```
-[default]
-aws_access_key_id=your access key
-aws_secret_access_key=your secret access key
-```
-- Now run the following commands to check if the keys are configured and set respectively:
-```
-$ aws configure
-$ aws configure list
-```
 
 ### Step 3:
 In this step we will run all the python scripts in the following order. Note that you can make changes wherever necessary according to your settings.
@@ -105,16 +66,16 @@ In this step we will run all the python scripts in the following order. Note tha
 - Run the **dataCleaner.py** file. This is clean the data in CSV file.
 - Run the **modelBuilder.py** file. This will build the model based on the data and save the model. It will be saved in the project folder named **GoogleStockModel**.
 
-**NOTE: Running the modelBuilder.py can also run all the above files sequentially. If you want to test each code, run each one individually.**
 
 ### Step 4:
 - After building the model, on terminal start the Zookeeper and Kafka servers.
 ```
 $ cd zookeeper
-$ ./bin/zkServer.sh start ./conf/zoo.cfg
+$ C:\Kafka\bin\windows\zookeeper-server-start.bat C:\Kafka\config\zookeeper.properties
+
 
 $ cd kafka
-$ ./bin/kafka-server-start.sh ./config/server-properties
+$ C:\Kafka\bin\windows\kafka-server-start.bat C:\Kafka\config\server.properties
 ```
 - Create a **key.txt** file in the project and add your AlphaVantage key in it so that the **Producer.py** file can access it.
 - Now run the **Producer.py** file. This will start the Producer that will serve the messages by creating the topic called **GoogleStock**.
@@ -123,38 +84,18 @@ $ ./bin/kafka-server-start.sh ./config/server-properties
 - Open the browser to see the graph displayed on **127.0.0.1:5000** shown in the below screeenshot.
 <img src=Screenshots/graph.gif height=”100”>
 
-**NOTE:** The graph needs to be kept running for at least 30 mins before it starts giving near accurate predictions, and for over an hour or full market hours to activate the hour and day filters respectively.
 
 #
 
 ## Deployment Process
 - First create an EC2 instance, download the **filename.pem** file which is available at the time of instance creation.
-
-- Now before logging in to the instance, make sure you assign an elastic IP to your instance. For this refer the 7th video of **[this](https://youtu.be/CIVI-DIzCFk)** link first before going forward. This will ensure that your IP address doesn’t change when you stop or reboot the instance and will also save some usage charges.
-
-
-- Open the terminal on your local machine and make your filename.pem file readable to avoid permission issues during logging in the instance.
-```
-$ chmod 400 filename.pem
-```
-- Now login to the instance using the .pem file and instance address.
-```
-$ ssh -i filename.pem ubuntu@your.elastic.IP
-```
-- After successfully logging in your instance, do the following as a good practice:
-```
-$ sudo apt-get update
-$ python3 -V
-$ sudo apt-get install python3-pip
-```
+- Now before logging in to the instance, make sure you assign an elastic IP to your instance. 
 - Install Java. Refer **[this](#Prerequisites)**
 - Next clone your project using git on the instance.
 - To ensure everything required package is available on the instance, follow the **[Prerequisites](#Prerequisites)** mentioned above.
 - For running the flask app on AWS, we need two additional packages: **nginx** and **gunicorn3** (since project is running on Python3)
-```
-$ sudo apt-get install nginx
-$ sudo apt-get install gunicorn3
-```
+
+
 #### ***What is NGINX?***
 ***NGINX is open source software for web serving, reverse proxying, caching, load balancing, media streaming, and more. It started out as a web server designed for maximum performance and stability. In addition to its HTTP server capabilities, NGINX can also function as a proxy server for email (IMAP, POP3, and SMTP) and a reverse proxy and load balancer for HTTP, TCP, and UDP servers.***
 
@@ -162,10 +103,7 @@ $ sudo apt-get install gunicorn3
 ***Gunicorn ‘Green Unicorn’ is a Python WSGI HTTP Server for UNIX. It’s a pre-fork worker model ported from Ruby’s Unicorn project. The Gunicorn server is broadly compatible with various web frameworks, simply implemented, light on server resource usage, and fairly speedy.***
 
 - Now go in the **sites-enabled** folder inside nginx and do the following:
-```
-$ cd /etc/nginx/sites-enabled/
-$ sudo nano flaskapp
-```
+
 - Inside the flaskapp file add the following:
 ```
 server{
@@ -177,9 +115,7 @@ server{
 }
 ```
 - Save the above file and restart the nginx service.
-```
-$ sudo service nginx restart
-```
+
 - Follow the videos from **[1–6](https://www.youtube.com/playlist?list=PL5KTLzN85O4KTCYzsWZPTP0BfRj6I_yUP)** for reference.
 - Finally start your Zookeeper and Kafka servers on the current terminal as usual.
 - Now open two additional terminals and login to the same instance from them and run the **Producer.py** and **app.py** files on each terminals as follows:
@@ -192,20 +128,7 @@ $ gunicorn3 app:app
 
 ## Job Scheduling on AWS
 - To perform job scheduling on AWS, we need to make four bash executable files: **zookeeper.sh, kafka.sh, ProducerJob.sh and AppJob.sh** and store them in the project directory.
-```
-# In zookeeper.sh add the following:
-/home/ubuntu/zookeeper/bin/zkServer.sh start /home/ubuntu/zookeeper/conf/zoo.cfg
 
-# In kafka.sh add the following:
-/home/ubuntu/kafka/bin/kafka-server-start.sh /home/ubuntu/kafka/config/server.properties
-
-# In ProducerJob.sh add the following:
-python3 Producer.py
-
-# In AppJob.sh add the following:
-gunicorn3 app:app
-
-```
 - Save the above four files and make them executable using the following commands:
 ```
 $ chmod u+x zookeeper.sh
