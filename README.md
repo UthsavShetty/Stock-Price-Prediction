@@ -92,7 +92,6 @@ $ C:\Kafka\bin\windows\kafka-server-start.bat C:\Kafka\config\server.properties
 - Now before logging in to the instance, make sure you assign an elastic IP to your instance. 
 - Install Java. Refer **[this](#Prerequisites)**
 - Next clone your project using git on the instance.
-- To ensure everything required package is available on the instance, follow the **[Prerequisites](#Prerequisites)** mentioned above.
 - For running the flask app on AWS, we need two additional packages: **nginx** and **gunicorn3** (since project is running on Python3)
 
 
